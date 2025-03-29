@@ -99,7 +99,7 @@ class Human:
 
         # Шанс на смерть
         death_chance = random.randint(1, 100)
-        if death_chance <= 0.01:  # 5% шанс на смерть
+        if death_chance <= 5:  # 5% шанс на смерть
             print(f"{self.name} died unexpectedly.")
             self.alive = False
 
@@ -145,7 +145,7 @@ def time_function(func):
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()
-        print(f"Function {func.__name__} took {end_time - start_time} seconds")
+        print(f"Function {func.__name__} took {end_time - start_time:.4f} seconds")
         return result
     return wrapper
 
@@ -158,17 +158,23 @@ def error_logging(func):
             raise e
     return wrapper
 
-
+# Приклад використання декораторів
 @time_function
 @error_logging
 def example_function():
-    print("This is an example function")
+    time.sleep(1)  # Симуляція роботи функції
+    return "Function completed"
 
-example_function()
+def test_time_function():
+    result = example_function()
+    assert result == "Function completed", "Test failed: Incorrect function result"
+    print("Test passed: Function result is correct")
 
+test_time_function()
 
+# Симуляція життя
 human = Human(name="John", job=Job(job_list), home=House(), car=Auto(brands_car))
-for day in range(1, 365):
+for day in range(1, 8):
     human.live(day)
     if not human.alive:
         break
